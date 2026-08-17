@@ -1,4 +1,3 @@
-![ascii art](./assets/ascii-art.png)
 <div align="center">
 
 <img src="./assets/ascii-art.png" alt="ascii art" width="380" />
