@@ -68,7 +68,6 @@ Shell:   bash
   <img width="12" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original.svg" height="40" alt="intellij logo" />
   <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" height="40" alt="cmd / windows logo" />
 </div>
 
 <h2 align="left">Let's connect</h2>
