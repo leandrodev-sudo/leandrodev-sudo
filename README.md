@@ -15,24 +15,14 @@ Hobby:   Volleyball, Video games
 
 ```java
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
 
-public class HelloHash {
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        String message = "Prazer, sou o Leo!";
+public class Leo {
+    public static void main(String[] args) throws Exception {
+        var hash = MessageDigest.getInstance("SHA-256")
+                .digest("Prazer, sou o Leo!".getBytes());
 
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hashBytes = digest.digest(message.getBytes());
-
-        StringBuilder hex = new StringBuilder();
-        for (byte b : hashBytes) {
-            String h = Integer.toHexString(0xff & b);
-            if (h.length() == 1) hex.append('0');
-            hex.append(h);
-        }
-
-        System.out.println(hex);
-        // de87d01e70e57c64a99aebadb175beba6e7b0391711c938e107a1c96f8ddfc9a
+        System.out.println(HexFormat.of().formatHex(hash));
     }
 }
 ```
