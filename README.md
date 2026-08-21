@@ -26,15 +26,6 @@ Shell:   bash
 </tr>
 </table>
 
-<h2 align="left">About me</h2>
-
-<p align="left">
-✨ Creating bugs since <b>[ano]</b><br>
-📚 I'm currently learning <b>[tecnologia]</b><br>
-🎯 Goals: <b>[seu objetivo]</b><br>
-🎲 Fun fact: <b>[fato curioso]</b>
-</p>
-
 <h2 align="left">I code with</h2>
 
 <div align="left">
