@@ -1,5 +1,5 @@
 name: Generate profile animations
-
+ 
 on:
   schedule:
     - cron: "0 0 * * *"   # roda toda meia-noite UTC (~21h em BR)
@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - main
-
+ 
 jobs:
   generate:
     permissions:
@@ -17,21 +17,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Generate contribution snake
-        uses: Platane/snk/svg-only@v3
+ 
+      - name: Generate stats card
+        uses: stats-organization/github-readme-stats-action@v2
         with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/github-contribution-grid-snake.svg
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
-
+          card: stats
+          options: username=${{ github.repository_owner }}&show_icons=true&theme=dracula&count_private=true
+          path: dist/stats.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+ 
+      - name: Generate top languages card
+        uses: stats-organization/github-readme-stats-action@v2
+        with:
+          card: top-langs
+          options: username=${{ github.repository_owner }}&layout=compact&theme=dracula
+          path: dist/top-langs.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+ 
       - name: Generate Pac-Man contribution graph
         uses: abozanona/pacman-contribution-graph@main
         with:
           github_user_name: ${{ github.repository_owner }}
           games: "pacman"
-
+ 
       - name: Push generated SVGs to the output branch
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
