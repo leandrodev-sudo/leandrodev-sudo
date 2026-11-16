@@ -46,8 +46,8 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "leandrodev-sudo"
+          git config user.email "leandrohenriquedev@gmail.com"
           git add assets/age.json
           git diff --staged --quiet && echo "Nada pra atualizar" || git commit -m "chore: atualiza badge de idade"
           git push

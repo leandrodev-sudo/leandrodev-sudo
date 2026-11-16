@@ -1,0 +1,69 @@
+name: Daily activity commits
+
+on:
+  schedule:
+    - cron: "30 6 * * *"   # roda todo dia às 6h30 UTC (depois do age update)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  daily-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar git
+        run: |
+          git config user.name "leandrodev-sudo"
+          git config user.email "leandrohenriquedev@gmail.com"
+
+      - name: Commit 1 — atualiza metadados do dia
+        run: |
+          mkdir -p assets
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          DAY_OF_YEAR=$(date -u +%j)
+          WEEK=$(date -u +%V)
+          echo "{\"last_update\":\"$TIMESTAMP\",\"day_of_year\":$((10#$DAY_OF_YEAR)),\"week\":$((10#$WEEK))}" > assets/meta.json
+          git add assets/meta.json
+          git commit -m "chore: atualiza metadados diários"
+          git push
+
+      - name: Commit 2 — atualiza log de atividade
+        run: |
+          mkdir -p assets
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          TODAY=$(date -u +"%Y-%m-%d")
+          # Adiciona uma linha ao log sem apagar o histórico anterior (máx 90 linhas)
+          echo "$TODAY $TIMESTAMP" >> assets/activity.log
+          tail -90 assets/activity.log > assets/activity.log.tmp && mv assets/activity.log.tmp assets/activity.log
+          git add assets/activity.log
+          git commit -m "chore: registra atividade diária"
+          git push
+
+      - name: Commit 3 — atualiza contador de dias
+        run: |
+          mkdir -p assets
+          EPOCH_START="2024-01-01"
+          START_TS=$(date -u -d "$EPOCH_START" +%s)
+          NOW_TS=$(date -u +%s)
+          DAYS_ACTIVE=$(( (NOW_TS - START_TS) / 86400 ))
+          TODAY=$(date -u +"%Y-%m-%d")
+          echo "{\"days_active\":$DAYS_ACTIVE,\"since\":\"$EPOCH_START\",\"date\":\"$TODAY\"}" > assets/streak.json
+          git add assets/streak.json
+          git commit -m "chore: atualiza contador de dias ativos"
+          git push
+
+      - name: Commit 4 — atualiza snapshot do ambiente
+        run: |
+          mkdir -p assets
+          TODAY=$(date -u +"%Y-%m-%d")
+          HOUR=$(date -u +"%H")
+          MINUTE=$(date -u +"%M")
+          UNIX=$(date -u +%s)
+          echo "{\"date\":\"$TODAY\",\"hour\":$((10#$HOUR)),\"minute\":$((10#$MINUTE)),\"unix\":$UNIX}" > assets/snapshot.json
+          git add assets/snapshot.json
+          git commit -m "chore: snapshot diário do ambiente"
+          git push
