@@ -24,15 +24,15 @@ jobs:
           card: stats
           options: username=${{ github.repository_owner }}&show_icons=true&theme=dracula&count_private=true
           path: dist/stats.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_STATS_TOKEN || secrets.GITHUB_TOKEN }}
  
       - name: Generate top languages card
         uses: stats-organization/github-readme-stats-action@v2
         with:
           card: top-langs
-          options: username=${{ github.repository_owner }}&layout=compact&theme=dracula
+          options: username=${{ github.repository_owner }}&layout=compact&theme=dracula&size_weight=0.5&count_weight=0.5
           path: dist/top-langs.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_STATS_TOKEN || secrets.GITHUB_TOKEN }}
  
       - name: Generate Pac-Man contribution graph
         uses: abozanona/pacman-contribution-graph@main
